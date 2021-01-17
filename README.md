@@ -1,6 +1,4 @@
 # CP_CODES
 Solutions to problems on various competitive programming platforms
-* Bullet list
-    * Nested bullet
-          * Sub-nested bullet etc
-* Bullet list item 2
+* AtCoder
+* Codechef https://cp-logo.vercel.app/codechef/ps112iitkgp
