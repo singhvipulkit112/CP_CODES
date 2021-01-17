@@ -1,4 +1,3 @@
-//AUTHOR : PULKIT SINGHVI @ps112iitkgp
 #include <bits/stdc++.h>
 using namespace std;
  
