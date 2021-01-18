@@ -133,40 +133,20 @@ int main()
             k=query(n+1, n);        
         }
         cout<<2<<endl;
-        if(sze & 1)
+        for(int r = 1; r<=sze; r++)
         {
-            for(int r = 1; r<=sze; r++)
+            int pos = 1;
+            if(r&1)pos = 0;
+            for(int c = 1; c<=sze; c++)
             {
-                int pos = 1;
-                if(r&1)pos = 0;
-                for(int c = 1; c<=sze; c++)
-                {
-                    if(r>=sze-1 || c>=sze-1)cout<<1-pos<<" ";
-                    else cout<<pos<<" ";
-                    pos=1-pos;
-                }
-                cout<<endl;
+                if((r>=sze-1 || c>=sze-1) && (sze & 1))cout<<1-pos<<" ";
+                else cout<<pos<<" ";
+                pos=1-pos;
             }
-            int verdict;
-            cin>>verdict;
-            if(verdict==-1)return(0);
+            cout<<endl;
         }
-        else
-        {
-            for(int r = 1; r<=n; r++)
-            {
-                int pos = 1;
-                if(r&1)pos = 0;
-                for(int c = 1; c<=n; c++)
-                {
-                    cout<<pos<<" ";
-                    pos=1-pos;
-                }
-                cout<<endl;
-            }
-            int verdict;
-            cin>>verdict;
-            if(verdict==-1)return(0);
-        }                        
+        int verdict;
+        cin>>verdict;
+        if(verdict==-1)return(0);                              
     }
 }   
