@@ -40,10 +40,12 @@ int main()
                 prev_l=1+prev_r;
                 prev_r=0;
             }
-        }
+        }     
         prev_l = 0; prev_r = 0;
+     
         if(s[0]=='L')prev_l++;
-        else prev_r++;
+        else prev_r++;     
+     
         for(int i = 1; i<=n; i++)
         {
             if(s[i-1]=='L')
