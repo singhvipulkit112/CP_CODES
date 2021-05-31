@@ -39,35 +39,33 @@ void dfs1(int v, int p)
 		if(ngh != p)check = check & (min_time_child == dp[ngh]);		
 	}
 
-	// All assassins reach at the same time
-	if(check)dp[v] = min_time_child + 1 ;
+	// All assasins reach at the same time
+	if(check || v==1)dp[v] = min_time_child + 1 ;
 	// The first one to reach gets killed by others	
 	else     dp[v] = min_time_child + 2 ;
 }
 
-void dfs2(int v, int p)
+void dfs2(int v, int p, int t)
 {
-	// This assassin will get the reward
-	if((int)g[v].size() == 1 && g[v][0]==p)
+
+	// Assasin here will be attacked
+	if(dp[v]<t)return;
+
+	// This assasin will get the reward
+	if((int)g[v].size() == 1 && g[v][0]==p && t==0)
 	{
 		winners.pb(v);
 		return;
 	}
 
-	int min_time_child = INF;
-
-	for(int ngh : g[v])
-	{
-		if(ngh != p) min_time_child = min(min_time_child, dp[ngh]);		
-	}
-
-	bool flag = (dp[v] == min_time_child + 1);	
+	bool flag = dp[v]==t;
 
 	for(int ngh : g[v])
 	{
 		if(ngh != p)
 		{
-			if(flag || (dp[ngh] != min_time_child))dfs2(ngh, v);
+			if(flag)dfs2(ngh, v, t-1);
+			else    dfs2(ngh, v, t)  ;
 		}
 	}
 }
@@ -89,7 +87,10 @@ int main()
 			g[v].pb(u);
 		}
 		dfs1(1, 0);
-		dfs2(1, 0);
+		for(int v : g[1])
+		{
+			if(dp[v] == dp[1]-1)dfs2(v, 1, dp[v]);
+		}
 		sort(all(winners));
 		cout<<winners.size()<<' '<<dp[1]<<'\n';
 		for(int x : winners)cout<<x<<' ';
