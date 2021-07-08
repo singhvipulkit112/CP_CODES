@@ -10,6 +10,9 @@ typedef vector<pdd> vpdd;
 #define ff first
 #define ss second
 
+const int mod = (int)1e9+7;
+const int N = (int)1e5+1;
+
 struct SegTree 
 {
 	// 1-Based
@@ -19,15 +22,6 @@ struct SegTree
 	{
 		n = sz;
 		Tree.resize(2*n+2);
-
-		Tree[2*n+1].ff = 1.0;
-		Tree[2*n+1].ss = 0.0;
-
-		if(!(n&2))
-		{
-			Tree[n+1].ff = 1.0;
-			Tree[n+1].ss = 0.0;
-		}
 	}
 	pdd merge(pdd p1, pdd p2)
 	{
@@ -48,19 +42,22 @@ struct SegTree
 			Tree[k]=merge(Tree[2*k], Tree[2*k+1]);
 		}
 	}
-	pdd query(int v, int il, int ih, int l, int r)
+	double query(int a, int b)
 	{
-		if(l>r)
-		{
-			pdd ans;
-			ans.ff = 1.0;
-			ans.ss = 0.0;
-			return(ans);
-		}
-		if(il == l && ih == r)return(Tree[v]);
+		a+=n;b+=n;
+		pdd left, right;
+		left.ff  = 1.0; left.ss  = 0.0;
+		right.ff = 1.0; right.ss = 0.0;
 
-		int im = (il+ih)/2;
-		return(merge(query(2*v, il, im, l, min(r, im)), query(2*v+1, im+1, ih, max(l, im+1), r)));
+		while(a<=b)
+		{
+			if(a&1)    left  = merge(left , Tree[a++]);
+			if(!(b&1)) right = merge(Tree[b--], right);
+			a/=2;b/=2;
+		}
+
+		pdd ans = merge(left, right);
+		return(ans.ff);
 	}
 };
 
@@ -80,7 +77,7 @@ int main()
 		cin>>a>>b;
 		data.set(i, a/b);
 	}
-	
+
 	for(int i=0; i<q; i++)
 	{
 		int type; cin>>type;
@@ -95,7 +92,7 @@ int main()
 		{
 			int l, r;
 			cin>>l>>r;
-			cout<<((data.query(1, 1, n, l, r)).ff)<<'\n';
+			cout<<data.query(l, r)<<'\n';
 		}		
-	}
+	}	
 }
